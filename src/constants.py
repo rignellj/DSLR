@@ -1,0 +1,1 @@
+NUMBER_TYPES = ['int64', 'float64']
