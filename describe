@@ -2,15 +2,21 @@
 
 from src import check_args, handle_open, NUMBER_TYPES
 from classes import Dslr
+import pandas as pd
 
 def main():
     file = check_args()
     df = handle_open(file)
     num_data = df.select_dtypes(include=NUMBER_TYPES)
     dslr = Dslr(num_data, num_data.columns)
-    dslr.count_rows()
-    dslr.count_mean()
-    print(dslr._summary)
+    print(num_data.describe())
+    dslr.count_rows_sum()
+    dslr.mean()
+    dslr.std()
+    dslr.min()
+    dslr.count_quartiles()
+    dslr.max()
+    print(pd.DataFrame(dslr._summary))
 
 if __name__ == '__main__':
     main()
