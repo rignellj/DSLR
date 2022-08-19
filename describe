@@ -1,0 +1,16 @@
+#!/Users/jrignell/dev/DSLR/.env/bin/python3
+
+from src import check_args, handle_open, NUMBER_TYPES
+from classes import Dslr
+
+def main():
+    file = check_args()
+    df = handle_open(file)
+    num_data = df.select_dtypes(include=NUMBER_TYPES)
+    dslr = Dslr(num_data, num_data.columns)
+    dslr.count_rows()
+    dslr.count_mean()
+    print(dslr._summary)
+
+if __name__ == '__main__':
+    main()
