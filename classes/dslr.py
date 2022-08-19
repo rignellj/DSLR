@@ -22,5 +22,5 @@ class Dslr():
             data_column = self._summary[column]
             count = data_column['Count']
             sum = data_column['Sum']
-            mean = count / sum
+            mean = sum / count
             data_column.update({**data_column, 'Mean': mean})
