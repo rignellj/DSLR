@@ -1,8 +1,7 @@
-#!/Users/jrignell/dev/DSLR/.env/bin/python3
-
-from src import check_args, handle_open, NUMBER_TYPES
-from classes import Analysis
 import pandas as pd
+
+from classes import Analysis
+
 
 def main():
     analysis = Analysis()
@@ -14,6 +13,7 @@ def main():
     analysis.count_quartiles()
     analysis.max()
     print(pd.DataFrame(analysis._summary))
+
 
 if __name__ == '__main__':
     main()
