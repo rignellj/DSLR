@@ -79,17 +79,17 @@ def main():
     # sns.stripplot(x='Hogwarts House', y='Herbology',
     #               data=histogram._df, hue='Best Hand', split=True, jitter=True)
     ##################### USE TOGETHER ##################################
-    # sns.violinplot(x='Hogwarts House', y='Herbology',
-    #                data=histogram._df)
-    # sns.swarmplot(x='Hogwarts House', y='Herbology', s=2,
-    #               data=histogram._df, dodge=True, color='black')
+    sns.violinplot(x='Hogwarts House', y='Herbology',
+                   data=histogram._df)
+    sns.swarmplot(x='Hogwarts House', y='Herbology', s=2,
+                  data=histogram._df, dodge=True, color='black')
     ##################### USE TOGETHER ##################################
     # sns.pairplot(data=histogram._df, kind='hex')
     # print(type(histogram._df['Arithmancy']))
     corr = histogram._df.corr()
     # sns.heatmap(corr, annot=True, cmap='coolwarm')
     # sns.heatmap(corr, cmap='magma', linecolor='white', linewidths=1)
-    sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
+    # sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
     print(histogram._df)
 
     histogram.show()
