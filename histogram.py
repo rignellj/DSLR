@@ -66,8 +66,31 @@ def main():
     print(histogram._df.describe())
 
     # histogram.plot_histogram('Arithmancy', 'Astronomy')
-    sns.histplot(histogram._df['Arithmancy'])
+    # sns.histplot(histogram._df['Arithmancy'], kde=True)
+    # sns.jointplot(x=histogram._df['Arithmancy'],
+    #               y=histogram._df['Hogwarts House'])
+    # sns.jointplot(x='History of Magic', y='Charms',
+    #               data=histogram._df, hue='Hogwarts House', palette='coolwarm')
+    # sns.barplot(x='Hogwarts House', y='Charms', data=histogram._df, estimator=np.std)  # type: ignore
+    # sns.boxplot(x='Hogwarts House', y='Charms',
+    #             data=histogram._df, hue='Best Hand')
+    # sns.violinplot(x='Hogwarts House', y='Charms',
+    #             data=histogram._df, hue='Best Hand', split=True)
+    # sns.stripplot(x='Hogwarts House', y='Herbology',
+    #               data=histogram._df, hue='Best Hand', split=True, jitter=True)
+    ##################### USE TOGETHER ##################################
+    # sns.violinplot(x='Hogwarts House', y='Herbology',
+    #                data=histogram._df)
+    # sns.swarmplot(x='Hogwarts House', y='Herbology', s=2,
+    #               data=histogram._df, dodge=True, color='black')
+    ##################### USE TOGETHER ##################################
+    # sns.pairplot(data=histogram._df, kind='hex')
     # print(type(histogram._df['Arithmancy']))
+    corr = histogram._df.corr()
+    # sns.heatmap(corr, annot=True, cmap='coolwarm')
+    # sns.heatmap(corr, cmap='magma', linecolor='white', linewidths=1)
+    sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
+    print(histogram._df)
 
     histogram.show()
 
