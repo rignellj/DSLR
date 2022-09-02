@@ -22,5 +22,3 @@ class Histogram(Dslr):
 
     def save_figure(self, figure, filename: str):
         figure.savefig(filename)
-    
-    

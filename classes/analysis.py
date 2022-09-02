@@ -10,8 +10,16 @@ class Analysis(Dslr):
 
     def __init__(self) -> None:
         super().__init__()
-        self._df = self._df.select_dtypes(include=NUMBER_TYPES)
+        self._df = self._df[self._df.select_dtypes(include=NUMBER_TYPES).columns.union(['Hogwarts House'])]
         self._summary = {}
+
+    def count_values(self):
+        self.count_rows_sum()
+        self.mean()
+        self.std()
+        self.min()
+        self.max()
+        self.count_quartiles()
 
     def count_rows_sum(self):
         for column in self._df.columns:
