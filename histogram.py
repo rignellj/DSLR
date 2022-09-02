@@ -1,7 +1,9 @@
-from classes import Histogram
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+
+from src import HOUSES
+from classes import Histogram, VisualizationAnalysis
 
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -18,8 +20,8 @@ def intro_to_matplotlib():
                linewidth=2, linestyle='-.', marker=1)
     axes1.plot(X, X**3, label='X Cubed', color='black', lw=2, alpha=0.5,
                ls='-', marker='o', markerfacecolor='grey')
-    axes1.set_xlim([0, 2])
-    axes1.set_ylim([0, 2])
+    axes1.set_xlim([0, 2])# type: ignore
+    axes1.set_ylim([0, 2])# type: ignore
 
     # axes2 = fig.add_axes([0.2, 0.5, 0.4, 0.3])
 
@@ -58,12 +60,14 @@ def seaborn_intro():
 
     # sns.pairplot(data=tips)
 
-    sns.rugplot(tips['total_bill'])
+    sns.rugplot(tips['total_bill']) # type: ignore
 
 
 def main():
     histogram = Histogram()
-    print(histogram._df.describe())
+    analysis = VisualizationAnalysis('Hogwarts House')
+    analysis.define_score_dist()
+    # analysis.count_f_values()
 
     # histogram.plot_histogram('Arithmancy', 'Astronomy')
     # sns.histplot(histogram._df['Arithmancy'], kde=True)
@@ -79,20 +83,24 @@ def main():
     # sns.stripplot(x='Hogwarts House', y='Herbology',
     #               data=histogram._df, hue='Best Hand', split=True, jitter=True)
     ##################### USE TOGETHER ##################################
-    sns.violinplot(x='Hogwarts House', y='Herbology',
+    # for column in analysis._df.columns:
+    sns.boxplot(x='Hogwarts House', y='Care of Magical Creatures',
                    data=histogram._df)
-    sns.swarmplot(x='Hogwarts House', y='Herbology', s=2,
+    sns.violinplot(x='Hogwarts House', y='Care of Magical Creatures',
+                   data=histogram._df)
+    sns.swarmplot(x='Hogwarts House', y='Care of Magical Creatures', s=2,
                   data=histogram._df, dodge=True, color='black')
     ##################### USE TOGETHER ##################################
     # sns.pairplot(data=histogram._df, kind='hex')
     # print(type(histogram._df['Arithmancy']))
-    corr = histogram._df.corr()
+    # corr = histogram._df.corr()
     # sns.heatmap(corr, annot=True, cmap='coolwarm')
     # sns.heatmap(corr, cmap='magma', linecolor='white', linewidths=1)
     # sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
-    print(histogram._df)
+    # print(histogram._df)
 
     histogram.show()
+
 
 
 if __name__ == '__main__':
