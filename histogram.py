@@ -67,6 +67,8 @@ def main():
     histogram = Histogram()
     analysis = VisualizationAnalysis('Hogwarts House')
     analysis.define_score_dist()
+    analysis.create_ordered_score_dist()
+    analysis.compare_score_dist()
     # analysis.count_f_values()
 
     # histogram.plot_histogram('Arithmancy', 'Astronomy')
@@ -84,12 +86,21 @@ def main():
     #               data=histogram._df, hue='Best Hand', split=True, jitter=True)
     ##################### USE TOGETHER ##################################
     # for column in analysis._df.columns:
-    sns.boxplot(x='Hogwarts House', y='Care of Magical Creatures',
-                   data=histogram._df)
-    sns.violinplot(x='Hogwarts House', y='Care of Magical Creatures',
-                   data=histogram._df)
-    sns.swarmplot(x='Hogwarts House', y='Care of Magical Creatures', s=2,
-                  data=histogram._df, dodge=True, color='black')
+    print(analysis._homogenous_features)
+    for idx, feature in enumerate(analysis._homogenous_features):
+        # sns.boxplot(x='Hogwarts House', y=feature, data=histogram._df)
+        sns.boxplot(x='Hogwarts House', y=feature, data=histogram._df)
+        sns.violinplot(x='Hogwarts House', y=feature, data=histogram._df)
+        sns.swarmplot(x='Hogwarts House', y=feature, data=histogram._df,
+                       s=1, dodge=True, color='black')
+    histogram.show()
+
+        # sns.boxplot(x='Hogwarts House', y=feature,
+        #             data=histogram._df)
+        # sns.violinplot(x='Hogwarts House', y=feature,
+        #             data=histogram._df)
+        # sns.swarmplot(x='Hogwarts House', y=feature, s=2,
+        #             data=histogram._df, dodge=True, color='black')
     ##################### USE TOGETHER ##################################
     # sns.pairplot(data=histogram._df, kind='hex')
     # print(type(histogram._df['Arithmancy']))
@@ -99,7 +110,6 @@ def main():
     # sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
     # print(histogram._df)
 
-    histogram.show()
 
 
 
