@@ -20,8 +20,8 @@ def intro_to_matplotlib():
                linewidth=2, linestyle='-.', marker=1)
     axes1.plot(X, X**3, label='X Cubed', color='black', lw=2, alpha=0.5,
                ls='-', marker='o', markerfacecolor='grey')
-    axes1.set_xlim([0, 2])# type: ignore
-    axes1.set_ylim([0, 2])# type: ignore
+    axes1.set_xlim([0, 2])  # type: ignore
+    axes1.set_ylim([0, 2])  # type: ignore
 
     # axes2 = fig.add_axes([0.2, 0.5, 0.4, 0.3])
 
@@ -60,7 +60,7 @@ def seaborn_intro():
 
     # sns.pairplot(data=tips)
 
-    sns.rugplot(tips['total_bill']) # type: ignore
+    sns.rugplot(tips['total_bill'])  # type: ignore
 
 
 def main():
@@ -86,21 +86,26 @@ def main():
     #               data=histogram._df, hue='Best Hand', split=True, jitter=True)
     ##################### USE TOGETHER ##################################
     # for column in analysis._df.columns:
+    print(analysis._score_dist)
     print(analysis._homogenous_features)
+    fig, ax = plt.subplots(1, len(analysis._homogenous_features))
     for idx, feature in enumerate(analysis._homogenous_features):
-        # sns.boxplot(x='Hogwarts House', y=feature, data=histogram._df)
-        sns.boxplot(x='Hogwarts House', y=feature, data=histogram._df)
-        sns.violinplot(x='Hogwarts House', y=feature, data=histogram._df)
-        sns.swarmplot(x='Hogwarts House', y=feature, data=histogram._df,
-                       s=1, dodge=True, color='black')
+        # sns.violinplot(x='Hogwarts House', y=feature,
+        #    data=histogram._df, ax=ax[idx])
+        sns.boxplot(x='Hogwarts House', y=feature,
+                    data=histogram._df, ax=ax[idx])
+        # sns.swarmplot(x='Hogwarts House', y=feature, data=histogram._df,
+        #   s=1, dodge=True, color='black', ax=ax[idx])
+
+    # sns.violinplot(x='Hogwarts House', y=feature, data=histogram._df)
     histogram.show()
 
-        # sns.boxplot(x='Hogwarts House', y=feature,
-        #             data=histogram._df)
-        # sns.violinplot(x='Hogwarts House', y=feature,
-        #             data=histogram._df)
-        # sns.swarmplot(x='Hogwarts House', y=feature, s=2,
-        #             data=histogram._df, dodge=True, color='black')
+    # sns.boxplot(x='Hogwarts House', y=feature,
+    #             data=histogram._df)
+    # sns.violinplot(x='Hogwarts House', y=feature,
+    #             data=histogram._df)
+    # sns.swarmplot(x='Hogwarts House', y=feature, s=2,
+    #             data=histogram._df, dodge=True, color='black')
     ##################### USE TOGETHER ##################################
     # sns.pairplot(data=histogram._df, kind='hex')
     # print(type(histogram._df['Arithmancy']))
@@ -109,8 +114,6 @@ def main():
     # sns.heatmap(corr, cmap='magma', linecolor='white', linewidths=1)
     # sns.clustermap(corr, cmap='coolwarm', standard_scale=1)
     # print(histogram._df)
-
-
 
 
 if __name__ == '__main__':

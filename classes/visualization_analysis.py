@@ -1,6 +1,7 @@
 from classes import Analysis
 from src.constants import HOUSES, SUBJECTS, P_VALUE
 
+
 class VisualizationAnalysis(Analysis):
 
     def __init__(self, category_name) -> None:
@@ -14,7 +15,7 @@ class VisualizationAnalysis(Analysis):
         self._homogenous_features = set()
         for house in HOUSES:
             self._score_dist[house] = {}
-    
+
     def define_category_summary(self):
         df = self._df
         for house in HOUSES:
@@ -23,20 +24,33 @@ class VisualizationAnalysis(Analysis):
             analysis.count_values()
             self._category_summary[house] = analysis._summary
 
+    def get_quartile_range(self, q1, q2, q3):
+        ret_dict = {}
+        if q1 < 0:
+            ret_dict['25%'] = [q1 * (1 + P_VALUE), q1 * (1 - P_VALUE)]
+        else:
+            ret_dict['25%'] = [q1 * (1 - P_VALUE), q1 * (1 + P_VALUE)]
+        if q2 < 0:
+            ret_dict['50%'] = [q2 * (1 + P_VALUE), q2 * (1 - P_VALUE)]
+        else:
+            ret_dict['50%'] = [q2 * (1 - P_VALUE), q2 * (1 + P_VALUE)]
+        if q3 < 0:
+            ret_dict['75%'] = [q3 * (1 + P_VALUE), q3 * (1 - P_VALUE)]
+        else:
+            ret_dict['75%'] = [q3 * (1 - P_VALUE), q3 * (1 + P_VALUE)]
+        return ret_dict
+
     def define_score_dist(self):
         self.define_category_summary()
         for house_name, house_data in self._category_summary.items():
             for subject in SUBJECTS:
-                house_first_q = house_data[subject]['25%']
-                house_second_q = house_data[subject]['50%']
-                house_third_q = house_data[subject]['75%']
-                if isinstance(house_first_q, str) or isinstance(house_second_q, str) or isinstance(house_third_q, str):
+                house_q1 = house_data[subject]['25%']
+                house_q2 = house_data[subject]['50%']
+                house_q3 = house_data[subject]['75%']
+                if isinstance(house_q1, str) or isinstance(house_q2, str) or isinstance(house_q3, str):
                     continue
-                self._score_dist[house_name][subject] = {
-                    '25%': [house_first_q * (1 - P_VALUE), house_first_q * (1 + P_VALUE)],
-                    '50%': [house_second_q * (1 - P_VALUE), house_second_q * (1 + P_VALUE)],
-                    '75%': [house_third_q * (1 - P_VALUE), house_third_q * (1 + P_VALUE)]
-                }
+                self._score_dist[house_name][subject] = self.get_quartile_range(
+                    house_q1, house_q2, house_q3)
 
     def create_ordered_score_dist(self):
         skip = ['Hogwarts House', 'Index']
@@ -64,7 +78,7 @@ class VisualizationAnalysis(Analysis):
                     for key, quartile in subject_item.items():
                         save_dict[subject][key] = [quartile]
         return save_dict
-    
+
     def compare_score_dist(self):
         summary = {}
         homogenous_features = []
@@ -88,10 +102,12 @@ class VisualizationAnalysis(Analysis):
                                 if subject in summary and house in summary[subject]:
                                     summary[subject][house][quartile_key] = 'match'
                                 elif subject in summary and house not in summary[subject]:
-                                    summary[subject] = {**summary[subject], **{house: {quartile_key: 'match'}}}
+                                    summary[subject] = {
+                                        **summary[subject], **{house: {quartile_key: 'match'}}}
                                 else:
                                     summary[subject] = {}
-                                    summary[subject][house] = {quartile_key: 'match'}
+                                    summary[subject][house] = {
+                                        quartile_key: 'match'}
                         else:
                             break
         for k, v in summary.items():
