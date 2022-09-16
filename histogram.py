@@ -5,6 +5,7 @@ import numpy as np
 from src import HOUSES
 from classes import Histogram, VisualizationAnalysis
 
+
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -88,14 +89,19 @@ def main():
     # for column in analysis._df.columns:
     print(analysis._score_dist)
     print(analysis._homogenous_features)
-    fig, ax = plt.subplots(1, len(analysis._homogenous_features))
-    for idx, feature in enumerate(analysis._homogenous_features):
-        # sns.violinplot(x='Hogwarts House', y=feature,
-        #    data=histogram._df, ax=ax[idx])
-        sns.boxplot(x='Hogwarts House', y=feature,
-                    data=histogram._df, ax=ax[idx])
-        # sns.swarmplot(x='Hogwarts House', y=feature, data=histogram._df,
-        #   s=1, dodge=True, color='black', ax=ax[idx])
+    num_of_features = len(analysis._homogenous_features)
+    if num_of_features == 1:
+        sns.boxplot(x='Hogwarts House', y=next(iter(analysis._homogenous_features)),
+                        data=histogram._df)
+    else:
+        _, ax = plt.subplots(1, len(analysis._homogenous_features))
+        for idx, feature in enumerate(analysis._homogenous_features):
+            # sns.violinplot(x='Hogwarts House', y=feature,
+            #    data=histogram._df, ax=ax[idx])
+            sns.boxplot(x='Hogwarts House', y=feature,
+                        data=histogram._df, ax=ax[idx])
+            # sns.swarmplot(x='Hogwarts House', y=feature, data=histogram._df,
+            #   s=1, dodge=True, color='black', ax=ax[idx])
 
     # sns.violinplot(x='Hogwarts House', y=feature, data=histogram._df)
     histogram.show()
